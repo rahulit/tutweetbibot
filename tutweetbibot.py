@@ -64,7 +64,7 @@ def jobAnnounce():
 # 3. Schedule handling
 # Schedule the job to run 1 hour
 try:
-    schedule.every(1).minute.do(job)
+    schedule.every(1).hour.do(job)
 except Exception as e:
     print(e)
 finally:
