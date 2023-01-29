@@ -4,6 +4,7 @@ import os
 import tweepy
 from slack_sdk import WebClient
 from dotenv import load_dotenv
+
 # 1. Initialization and Authentication
 # Load environment variables from .env file
 load_dotenv()
@@ -41,7 +42,7 @@ def job():
     except tweepy.error.RateLimitError as e:
         print(e)
     finally:
-        print("Code Run " + str(count) + " Completed")
+        print("Code Run " + str(count-1) + " Completed")
 
     # Post tweets to designated Slack channel
     for tweet in tweets:
