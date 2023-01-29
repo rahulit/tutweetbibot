@@ -25,3 +25,37 @@ client = WebClient(token=slack_token)
 # Initialize count for number of iteration of completed job task
 count = 1
 
+
+# 2. Job Task
+# Retrieve 10 latest tweets from Twitter and display at Slack channel #general
+def job():
+    global count
+    client.chat_postMessage(channel='#general', text="########")
+    client.chat_postMessage(channel='#general', text="Hourly Update from Twitter")
+    jobAnnounce()
+    client.chat_postMessage(channel='#general', text="########")
+    print("Code Starting")
+    # Get tweets from specified Twitter account
+    try:
+        tweets = tweepy.Cursor(api.user_timeline, screen_name='livelyrahul', count=10).items()
+    except tweepy.error.RateLimitError as e:
+        print(e)
+    finally:
+        print("Code Run " + str(count) + " Completed")
+
+    # Post tweets to designated Slack channel
+    for tweet in tweets:
+        try:
+            client.chat_postMessage(channel='#general', text=tweet.text)
+        except Exception as e:
+            print(e)
+    client.chat_postMessage(channel='#general', text="### Hourly Update from Twitter over ###")
+    return
+
+
+# Measure count of tweet retrieved and pass as comment in the slack bot
+def jobAnnounce():
+    global count
+    client.chat_postMessage(channel='#general', text=str(count))
+    count += 1
+    return
