@@ -59,3 +59,22 @@ def jobAnnounce():
     client.chat_postMessage(channel='#general', text=str(count))
     count += 1
     return
+
+# 3. Schedule handling
+# Schedule the job to run 1 hour
+try:
+    schedule.every(1).minute.do(job)
+except Exception as e:
+    print(e)
+finally:
+    print("Code Running Count : "+str(count))
+
+# While loop to run app continuously
+try:
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+except Exception as e:
+    print(e)
+finally:
+    print("Code Exiting")
